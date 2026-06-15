@@ -51,9 +51,9 @@ azerothcore-wotlk/
 ```
 
 Re-run CMake, rebuild the server, and install it. AzerothCore will install
-`mod_rndbot_buffs.conf.dist` with the other module configuration files.
+`mod_rndbot_buffs.conf` with the other module configuration files.
 
-Edit `worldserver.conf.d/mod_rndbot_buffs.conf` if you want to change the
+Edit `mod_rndbot_buffs.conf` if you want to change the
 defaults, then restart the worldserver. Configuration reloads are also
 supported through AzerothCore's normal config reload path.
 
