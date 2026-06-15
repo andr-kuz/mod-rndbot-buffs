@@ -1,5 +1,6 @@
-# Created by Rockhopper1776
+# RandomBot Buff Module
 # mod-rndbot-buffs
+# Created by Rockhopper1776
 
 An AzerothCore module for
 [mod-playerbots](https://github.com/mod-playerbots/mod-playerbots) that lets
