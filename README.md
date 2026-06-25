@@ -9,7 +9,7 @@ idle random bots cast useful class buffs on nearby real player characters.
 The module is intentionally conservative:
 
 - only rndbots managed by `RandomPlayerbotMgr` participate;
-- the bot must be alive, stationary, unmounted, out of combat, and not casting;
+- the bot must be alive, unmounted, out of combat, and not casting;
 - the bot must remain above a configurable mana threshold;
 - only real, living, visible players in range are considered;
 - by default, targets must be same-faction and out of combat;
@@ -36,8 +36,6 @@ target validation performed by mod-playerbots.
   on its `Playerbot` branch
 - [mod-playerbots/mod-playerbots](https://github.com/mod-playerbots/mod-playerbots)
   on its `master` branch
-
-The standard AzerothCore core is not compatible with current mod-playerbots.
 
 ## Installation
 
