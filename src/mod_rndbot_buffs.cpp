@@ -220,7 +220,7 @@ bool IsIdleRndbot(Player* bot, PlayerbotAI* botAI)
     if (bot->IsInCombat() || bot->GetVictim() || botAI->GetState() == BOT_STATE_COMBAT)
         return false;
 
-    if (bot->IsNonMeleeSpellCast(true) || bot->isMoving() || bot->IsMounted() ||
+    if (bot->IsNonMeleeSpellCast(true) || bot->IsMounted() ||
         bot->getStandState() != UNIT_STAND_STATE_STAND || botAI->IsInVehicle())
     {
         return false;
