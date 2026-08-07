@@ -18,6 +18,7 @@
 
 #include <algorithm>
 #include <initializer_list>
+#include <mutex>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -42,6 +43,7 @@ struct RndbotBuffConfig
 
 RndbotBuffConfig config;
 std::unordered_map<ObjectGuid::LowType, uint32> botCheckTimers;
+std::mutex botCheckTimers_mutex;
 
 void LoadConfig()
 {
@@ -328,24 +330,33 @@ public:
         }
 
         ObjectGuid::LowType const guid = player->GetGUID().GetCounter();
-        auto [timerItr, inserted] = botCheckTimers.try_emplace(
-            guid,
-            urand(0, config.checkIntervalMs));
 
-        if (!inserted)
-            timerItr->second += diff;
+        {
+            std::lock_guard<std::mutex> guard(botCheckTimers_mutex);
 
-        if (timerItr->second < config.checkIntervalMs)
-            return;
+            auto [timerItr, inserted] = botCheckTimers.try_emplace(
+                guid,
+                urand(0, config.checkIntervalMs));
 
-        timerItr->second = urand(0, std::min<uint32>(1000, config.checkIntervalMs / 4));
+            if (!inserted)
+                timerItr->second += diff;
+
+            if (timerItr->second < config.checkIntervalMs)
+                return;
+
+            timerItr->second = urand(0, std::min<uint32>(1000, config.checkIntervalMs / 4));
+        }
+
         TryBuffNearbyPlayer(player);
     }
 
     void OnPlayerLogout(Player* player) override
     {
         if (player)
+        {   
+            std::lock_guard<std::mutex> guard(botCheckTimers_mutex);
             botCheckTimers.erase(player->GetGUID().GetCounter());
+        }
     }
 };
 
