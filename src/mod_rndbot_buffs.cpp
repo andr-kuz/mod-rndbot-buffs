@@ -18,6 +18,7 @@
 
 #include <algorithm>
 #include <initializer_list>
+#include <mutex>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -330,8 +331,9 @@ public:
 
         ObjectGuid::LowType const guid = player->GetGUID().GetCounter();
 
-        std::lock_guard<std::mutex> guard(botCheckTimers_mutex);
         {
+            std::lock_guard<std::mutex> guard(botCheckTimers_mutex);
+
             auto [timerItr, inserted] = botCheckTimers.try_emplace(
                 guid,
                 urand(0, config.checkIntervalMs));
@@ -344,6 +346,7 @@ public:
 
             timerItr->second = urand(0, std::min<uint32>(1000, config.checkIntervalMs / 4));
         }
+
         TryBuffNearbyPlayer(player);
     }
 
